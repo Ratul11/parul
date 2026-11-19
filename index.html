@@ -1,10 +1,1105 @@
-<html>
-<body>
-<table border="1" cellspacing="0">
-<tr><th>Name</th><th>Roll</th><th>Mark</th></tr>
-<tr><td>A</td><td>10</td><td>99</td></tr>
-<tr><td>B</td><td>13</td><td>19</td></tr>
-<tr><td>C</td><td>19</td><td>39</td></tr>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Lists & Tables — Interactive Student Guide</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
+    <!-- Toast Notification for Copy Feedback (Replaces alert) -->
+    <div id="copy-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <span class="text-sm font-medium">HTML snippet copied to clipboard!</span>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i data-lucide="code-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg tracking-tight text-slate-900 block leading-none">WebDev<span class="text-brand-600">Classroom</span></span>
+                        <span class="text-xs font-medium text-slate-500">HTML5 Lists & Tables</span>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Links -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/75">
+                    <a href="#unordered-lists" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">1. Unordered</a>
+                    <a href="#ordered-lists" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">2. Ordered</a>
+                    <a href="#description-lists" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">3. Description</a>
+                    <a href="#nested-lists" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">4. Nested</a>
+                    <a href="#basic-tables" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">5. Tables</a>
+                    <a href="#advanced-tables" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg transition-all">6. Colspan/Rowspan</a>
+                </nav>
+
+                <!-- Presentation Mode / Print Action -->
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleTagHighlights()" id="highlight-btn" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 transition-all cursor-pointer" title="Highlight semantic structures in previews">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Inspect Borders</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative overflow-hidden bg-white border-b border-slate-200 pt-12 pb-16 sm:pt-16 sm:pb-20">
+        <div class="absolute inset-0 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] [background-size:20px_20px] opacity-60"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
+                Interactive Lecture & Reference Module
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+                Mastering <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-violet-600">HTML Lists</span> & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Structured Tables</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed mb-8">
+                Explore how browsers render semantic lists and tabular data. Switch between interactive variations, inspect live previews side-by-side with syntax-highlighted HTML, and copy clean code snippets to test in your own editor.
+            </p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="#unordered-lists" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-lg shadow-brand-600/25 transition-all">
+                    <i data-lucide="list" class="w-4 h-4"></i>
+                    Start with Lists
+                </a>
+                <a href="#basic-tables" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-300 shadow-sm transition-all">
+                    <i data-lucide="table" class="w-4 h-4 text-emerald-600"></i>
+                    Jump to Tables
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- =====================================================================
+             SECTION 1: UNORDERED LISTS (<ul>)
+             ===================================================================== -->
+        <section id="unordered-lists" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-brand-100 text-brand-700 font-mono text-xs font-bold">01</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600">HTML Lists</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Unordered Lists (<code class="text-brand-600 font-mono text-xl sm:text-2xl bg-brand-50 px-2 py-0.5 rounded-lg">&lt;ul&gt;</code>)</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">Used for collections of items where the sequence or order does <strong>not</strong> matter. Each item is wrapped inside an <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;li&gt;</code> tag.</p>
+                </div>
+
+                <!-- Interactive Style Switcher -->
+                <div class="flex flex-wrap items-center gap-1.5 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm self-start">
+                    <button onclick="setUlStyle('disc')" id="ul-tab-disc" class="ul-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white transition-all cursor-pointer">Disc (Default)</button>
+                    <button onclick="setUlStyle('circle')" id="ul-tab-circle" class="ul-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer">Circle</button>
+                    <button onclick="setUlStyle('square')" id="ul-tab-square" class="ul-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer">Square</button>
+                    <button onclick="setUlStyle('custom')" id="ul-tab-custom" class="ul-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer">Custom Emoji</button>
+                </div>
+            </div>
+
+            <!-- Side-by-Side Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview -->
+                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Live Browser Output</span>
+                            </span>
+                            <span id="ul-badge" class="text-xs font-mono bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-md border border-brand-200">list-style-type: disc</span>
+                        </div>
+
+                        <div id="ul-preview-box" class="inspectable bg-white p-6 rounded-xl border border-slate-200 shadow-inner">
+                            <h3 class="font-bold text-slate-800 mb-3 text-base">Essential Frontend Languages:</h3>
+                            <ul id="ul-live-list" class="list-disc pl-6 space-y-2 text-slate-700 text-sm sm:text-base">
+                                <li>HTML5 (Structure & Semantics)</li>
+                                <li>CSS3 (Styling & Responsive Layout)</li>
+                                <li>JavaScript (Interactivity & Logic)</li>
+                                <li>TypeScript (Type-Safe JavaScript)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2.5">
+                        <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+                        <p><strong>Teacher's Tip:</strong> Modern HTML5 favors CSS <code class="font-mono bg-amber-100 px-1 rounded">list-style-type</code> over the deprecated HTML <code class="font-mono bg-amber-100 px-1 rounded">type=""</code> attribute on <code class="font-mono bg-amber-100 px-1 rounded">&lt;ul&gt;</code>.</p>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="lg:col-span-7 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-brand-400"></i>
+                            <span class="text-xs font-mono text-slate-400">unordered-list.html</span>
+                        </div>
+                        <button onclick="copyCode('ul-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 sm:p-6 text-xs sm:text-sm font-mono leading-relaxed overflow-x-auto flex-1 flex items-center"><code id="ul-code-display" class="w-full"></code></pre>
+                    <textarea id="ul-code-raw" class="hidden"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION 2: ORDERED LISTS (<ol>)
+             ===================================================================== -->
+        <section id="ordered-lists" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-violet-100 text-violet-700 font-mono text-xs font-bold">02</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-violet-600">HTML Lists</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Ordered Lists (<code class="text-violet-600 font-mono text-xl sm:text-2xl bg-violet-50 px-2 py-0.5 rounded-lg">&lt;ol&gt;</code>)</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">Used for step-by-step instructions, rankings, or sequences. Supports <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">type</code>, <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">start</code>, and <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">reversed</code> attributes.</p>
+                </div>
+
+                <!-- Interactive Controls for <ol> -->
+                <div class="flex flex-wrap items-center gap-2 bg-white p-2 rounded-xl border border-slate-200 shadow-sm self-start">
+                    <div class="flex items-center gap-1.5">
+                        <label for="ol-type-select" class="text-xs font-semibold text-slate-500 pl-1">Type:</label>
+                        <select id="ol-type-select" onchange="updateOlDemo()" class="text-xs font-semibold bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500 cursor-pointer">
+                            <option value="1">1 (Numbers)</option>
+                            <option value="A">A (Uppercase Letters)</option>
+                            <option value="a">a (Lowercase Letters)</option>
+                            <option value="I">I (Uppercase Roman)</option>
+                            <option value="i">i (Lowercase Roman)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-1.5 border-l border-slate-200 pl-2">
+                        <label for="ol-start-input" class="text-xs font-semibold text-slate-500">Start:</label>
+                        <input id="ol-start-input" type="number" value="1" min="1" max="50" onchange="updateOlDemo()" class="w-14 text-xs font-semibold bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                    <label class="inline-flex items-center gap-1.5 border-l border-slate-200 pl-2 pr-1 cursor-pointer select-none">
+                        <input id="ol-reversed-check" type="checkbox" onchange="updateOlDemo()" class="rounded text-violet-600 focus:ring-violet-500 w-3.5 h-3.5">
+                        <span class="text-xs font-semibold text-slate-700">Reversed</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Side-by-Side Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview -->
+                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Live Browser Output</span>
+                            </span>
+                            <span id="ol-badge" class="text-xs font-mono bg-violet-50 text-violet-700 px-2.5 py-0.5 rounded-md border border-violet-200">&lt;ol type="1"&gt;</span>
+                        </div>
+
+                        <div class="inspectable bg-white p-6 rounded-xl border border-slate-200 shadow-inner">
+                            <h3 class="font-bold text-slate-800 mb-3 text-base">How a Webpage Loads:</h3>
+                            <ol id="ol-live-list" type="1" start="1" class="list-decimal pl-6 space-y-2 text-slate-700 text-sm sm:text-base">
+                                <li>Browser requests HTML from server</li>
+                                <li>DOM (Document Object Model) is parsed</li>
+                                <li>CSS & JavaScript assets are fetched</li>
+                                <li>Page is painted onto the screen</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-3.5 rounded-xl bg-violet-50/80 border border-violet-200/80 text-xs text-violet-900 flex items-start gap-2.5">
+                        <i data-lucide="sliders" class="w-4 h-4 text-violet-600 shrink-0 mt-0.5"></i>
+                        <p><strong>Interactive Demo:</strong> Try changing <strong>Type</strong> to Roman Numerals (<code class="font-mono bg-violet-100 px-1 rounded">I</code>), setting <strong>Start</strong> to <code class="font-mono bg-violet-100 px-1 rounded">5</code>, or toggling <strong>Reversed</strong> for countdowns!</p>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="lg:col-span-7 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-violet-400"></i>
+                            <span class="text-xs font-mono text-slate-400">ordered-list.html</span>
+                        </div>
+                        <button onclick="copyCode('ol-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 sm:p-6 text-xs sm:text-sm font-mono leading-relaxed overflow-x-auto flex-1 flex items-center"><code id="ol-code-display" class="w-full"></code></pre>
+                    <textarea id="ol-code-raw" class="hidden"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION 3: DESCRIPTION LISTS (<dl>, <dt>, <dd>)
+             ===================================================================== -->
+        <section id="description-lists" class="scroll-mt-24">
+            <div class="mb-6">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <span class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-700 font-mono text-xs font-bold">03</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-sky-600">HTML Lists</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Description Lists (<code class="text-sky-600 font-mono text-xl sm:text-2xl bg-sky-50 px-2 py-0.5 rounded-lg">&lt;dl&gt;</code>, <code class="text-sky-600 font-mono text-xl sm:text-2xl bg-sky-50 px-2 py-0.5 rounded-lg">&lt;dt&gt;</code>, <code class="text-sky-600 font-mono text-xl sm:text-2xl bg-sky-50 px-2 py-0.5 rounded-lg">&lt;dd&gt;</code>)</h2>
+                <p class="text-slate-600 mt-1 text-sm sm:text-base">Ideal for glossaries, key-value metadata, and FAQs. Consists of a Description List (<code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;dl&gt;</code>), Description Term (<code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;dt&gt;</code>), and Description Details (<code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;dd&gt;</code>).</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview -->
+                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Live Browser Output</span>
+                            </span>
+                            <span class="text-xs font-mono bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-md border border-sky-200">Key-Value Pairs</span>
+                        </div>
+
+                        <div class="inspectable bg-white p-6 rounded-xl border border-slate-200 shadow-inner">
+                            <h3 class="font-bold text-slate-800 mb-4 text-base border-b border-slate-100 pb-2">Web Protocols Glossary</h3>
+                            <dl class="space-y-3 text-sm">
+                                <div>
+                                    <dt class="font-bold text-sky-700 flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                                        HTML
+                                    </dt>
+                                    <dd class="pl-5 text-slate-600 mt-0.5">HyperText Markup Language — defines the structure and meaning of web content.</dd>
+                                </div>
+                                <div>
+                                    <dt class="font-bold text-sky-700 flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                                        HTTP / HTTPS
+                                    </dt>
+                                    <dd class="pl-5 text-slate-600 mt-0.5">HyperText Transfer Protocol — governs how messages are formatted and transmitted.</dd>
+                                </div>
+                                <div>
+                                    <dt class="font-bold text-sky-700 flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                                        DOM
+                                    </dt>
+                                    <dd class="pl-5 text-slate-600 mt-0.5">Document Object Model — a tree representation of HTML elements in memory.</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-3.5 rounded-xl bg-sky-50/80 border border-sky-200/80 text-xs text-sky-900 flex items-start gap-2.5">
+                        <i data-lucide="info" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                        <p><strong>Accessibility Note:</strong> Screen readers announce <code class="font-mono bg-sky-100 px-1 rounded">&lt;dl&gt;</code> groups explicitly as term-definition pairs, making them far superior to plain <code class="font-mono bg-sky-100 px-1 rounded">&lt;div&gt;</code> tags for glossaries.</p>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="lg:col-span-7 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-sky-400"></i>
+                            <span class="text-xs font-mono text-slate-400">description-list.html</span>
+                        </div>
+                        <button onclick="copyCode('dl-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 sm:p-6 text-xs sm:text-sm font-mono leading-relaxed overflow-x-auto flex-1 flex items-center"><code id="dl-code-display" class="w-full"></code></pre>
+                    <textarea id="dl-code-raw" class="hidden"><dl>
+  <dt>HTML</dt>
+  <dd>HyperText Markup Language — defines the structure and meaning of web content.</dd>
+
+  <dt>HTTP / HTTPS</dt>
+  <dd>HyperText Transfer Protocol — governs how messages are formatted and transmitted.</dd>
+
+  <dt>DOM</dt>
+  <dd>Document Object Model — a tree representation of HTML elements in memory.</dd>
+</dl></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION 4: NESTED LISTS
+             ===================================================================== -->
+        <section id="nested-lists" class="scroll-mt-24">
+            <div class="mb-6">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-700 font-mono text-xs font-bold">04</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-600">HTML Lists</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Nested Lists (Multi-Level Hierarchy)</h2>
+                <p class="text-slate-600 mt-1 text-sm sm:text-base">You can place an entire <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;ul&gt;</code> or <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;ol&gt;</code> <strong>inside</strong> an <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;li&gt;</code> element to represent sub-categories, outlines, or navigation menus.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview -->
+                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Live Browser Output</span>
+                            </span>
+                            <span class="text-xs font-mono bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-md border border-amber-200">&lt;ol&gt; + &lt;ul&gt;</span>
+                        </div>
+
+                        <div class="inspectable bg-white p-6 rounded-xl border border-slate-200 shadow-inner">
+                            <h3 class="font-bold text-slate-800 mb-3 text-base">Course Syllabus Outline:</h3>
+                            <ol class="list-decimal pl-5 space-y-2.5 text-sm text-slate-800 font-medium">
+                                <li>
+                                    Module 1: HTML Fundamentals
+                                    <ul class="list-disc pl-5 mt-1.5 space-y-1 text-slate-600 font-normal">
+                                        <li>Document Structure & Head Tags</li>
+                                        <li>Text Formatting & Links</li>
+                                        <li>Lists & Semantic Tables</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Module 2: Modern CSS Styling
+                                    <ul class="list-disc pl-5 mt-1.5 space-y-1 text-slate-600 font-normal">
+                                        <li>Box Model & Flexbox</li>
+                                        <li>CSS Grid Layouts</li>
+                                    </ul>
+                                </li>
+                                <li>Module 3: JavaScript Basics</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-3.5 rounded-xl bg-rose-50/80 border border-rose-200/80 text-xs text-rose-900 flex items-start gap-2.5">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+                        <p><strong>Common Student Mistake:</strong> Never put a nested <code class="font-mono bg-rose-100 px-1 rounded">&lt;ul&gt;</code> directly inside another <code class="font-mono bg-rose-100 px-1 rounded">&lt;ul&gt;</code>! Always place the nested list <strong>inside</strong> the parent <code class="font-mono bg-rose-100 px-1 rounded">&lt;li&gt;...&lt;/li&gt;</code> before closing it.</p>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="lg:col-span-7 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-amber-400"></i>
+                            <span class="text-xs font-mono text-slate-400">nested-lists.html</span>
+                        </div>
+                        <button onclick="copyCode('nested-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 sm:p-6 text-xs sm:text-sm font-mono leading-relaxed overflow-x-auto flex-1 flex items-center"><code id="nested-code-display" class="w-full"></code></pre>
+                    <textarea id="nested-code-raw" class="hidden"><ol>
+  <li>Module 1: HTML Fundamentals
+    <ul>
+      <li>Document Structure &amp; Head Tags</li>
+      <li>Text Formatting &amp; Links</li>
+      <li>Lists &amp; Semantic Tables</li>
+    </ul>
+  </li>
+  <li>Module 2: Modern CSS Styling
+    <ul>
+      <li>Box Model &amp; Flexbox</li>
+      <li>CSS Grid Layouts</li>
+    </ul>
+  </li>
+  <li>Module 3: JavaScript Basics</li>
+</ol></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="relative py-2">
+            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full border-t border-slate-200"></div>
+            </div>
+            <div class="relative flex justify-center">
+                <span class="bg-slate-50 px-4 text-xs font-bold uppercase tracking-widest text-slate-400">Part II — Tabular Data</span>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             SECTION 5: BASIC & STYLED HTML TABLES
+             ===================================================================== -->
+        <section id="basic-tables" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-mono text-xs font-bold">05</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">HTML Tables</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Semantic HTML Tables (<code class="text-emerald-600 font-mono text-xl sm:text-2xl bg-emerald-50 px-2 py-0.5 rounded-lg">&lt;table&gt;</code>)</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">Organize 2D data using semantic sections: <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;thead&gt;</code> (column headers), <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;tbody&gt;</code> (main rows), and <code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">&lt;tfoot&gt;</code> (summary totals).</p>
+                </div>
+
+                <!-- Table Style Toggle -->
+                <div class="flex items-center gap-1.5 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm self-start">
+                    <button onclick="setTableTheme('styled')" id="tbl-btn-styled" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition-all cursor-pointer">Modern Styled</button>
+                    <button onclick="setTableTheme('raw')" id="tbl-btn-raw" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer">Unstyled Browser Default</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview -->
+                <div class="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Live Browser Output</span>
+                            </span>
+                            <span class="text-xs font-mono bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-md border border-emerald-200">thead / tbody / tfoot</span>
+                        </div>
+
+                        <!-- Styled Table Wrapper -->
+                        <div id="table-styled-wrapper" class="inspectable overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <caption class="px-4 py-2.5 text-xs font-semibold text-slate-500 bg-slate-50 border-b border-slate-200 text-left">
+                                    Table 1: CS-101 Midterm Exam Scores
+                                </caption>
+                                <thead class="bg-emerald-600 text-white text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 font-semibold">Student ID</th>
+                                        <th scope="col" class="px-4 py-3 font-semibold">Full Name</th>
+                                        <th scope="col" class="px-4 py-3 font-semibold text-right">Score</th>
+                                        <th scope="col" class="px-4 py-3 font-semibold text-center">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-700">
+                                    <tr class="hover:bg-emerald-50/50 transition-colors">
+                                        <td class="px-4 py-3 font-mono text-xs text-slate-500">ST-101</td>
+                                        <td class="px-4 py-3 font-medium text-slate-900">Amina Rahman</td>
+                                        <td class="px-4 py-3 text-right font-mono">94</td>
+                                        <td class="px-4 py-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">A+</span></td>
+                                    </tr>
+                                    <tr class="bg-slate-50/70 hover:bg-emerald-50/50 transition-colors">
+                                        <td class="px-4 py-3 font-mono text-xs text-slate-500">ST-102</td>
+                                        <td class="px-4 py-3 font-medium text-slate-900">Tariq Hasan</td>
+                                        <td class="px-4 py-3 text-right font-mono">86</td>
+                                        <td class="px-4 py-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800">A</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-emerald-50/50 transition-colors">
+                                        <td class="px-4 py-3 font-mono text-xs text-slate-500">ST-103</td>
+                                        <td class="px-4 py-3 font-medium text-slate-900">Nadia Islam</td>
+                                        <td class="px-4 py-3 text-right font-mono">90</td>
+                                        <td class="px-4 py-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">A+</span></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="bg-slate-100 font-semibold text-slate-800 border-t-2 border-slate-300">
+                                    <tr>
+                                        <td colspan="2" class="px-4 py-3 text-xs uppercase tracking-wider text-slate-600">Class Average</td>
+                                        <td class="px-4 py-3 text-right font-mono text-emerald-700">90.0</td>
+                                        <td class="px-4 py-3 text-center text-xs text-slate-600">Pass</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- Raw Unstyled Browser Default View (Hidden initially) -->
+                        <div id="table-raw-wrapper" class="hidden overflow-x-auto rounded-xl border border-slate-300 bg-white p-5 font-serif text-black">
+                            <table border="1" cellpadding="6" cellspacing="2" style="border-collapse: separate; border: 1px solid #666;">
+                                <caption style="font-weight: bold; margin-bottom: 4px;">Table 1: CS-101 Midterm Exam Scores</caption>
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #666; background: #eee;">Student ID</th>
+                                        <th style="border: 1px solid #666; background: #eee;">Full Name</th>
+                                        <th style="border: 1px solid #666; background: #eee;">Score</th>
+                                        <th style="border: 1px solid #666; background: #eee;">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #666;">ST-101</td>
+                                        <td style="border: 1px solid #666;">Amina Rahman</td>
+                                        <td style="border: 1px solid #666;">94</td>
+                                        <td style="border: 1px solid #666;">A+</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #666;">ST-102</td>
+                                        <td style="border: 1px solid #666;">Tariq Hasan</td>
+                                        <td style="border: 1px solid #666;">86</td>
+                                        <td style="border: 1px solid #666;">A</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #666;">ST-103</td>
+                                        <td style="border: 1px solid #666;">Nadia Islam</td>
+                                        <td style="border: 1px solid #666;">90</td>
+                                        <td style="border: 1px solid #666;">A+</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="2" style="border: 1px solid #666; background: #f5f5f5;">Class Average</th>
+                                        <td style="border: 1px solid #666; font-weight: bold;">90.0</td>
+                                        <td style="border: 1px solid #666;">Pass</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy Key -->
+                    <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <code class="font-mono font-bold text-emerald-700">&lt;tr&gt;</code>
+                            <span class="block text-slate-500 mt-0.5">Table Row</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <code class="font-mono font-bold text-emerald-700">&lt;th&gt;</code>
+                            <span class="block text-slate-500 mt-0.5">Header Cell</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <code class="font-mono font-bold text-emerald-700">&lt;td&gt;</code>
+                            <span class="block text-slate-500 mt-0.5">Data Cell</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <code class="font-mono font-bold text-emerald-700">&lt;caption&gt;</code>
+                            <span class="block text-slate-500 mt-0.5">Table Title</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="lg:col-span-6 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i>
+                            <span class="text-xs font-mono text-slate-400">semantic-table.html</span>
+                        </div>
+                        <button onclick="copyCode('table-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 sm:p-6 text-xs font-mono leading-relaxed overflow-x-auto flex-1"><code id="table-code-display" class="w-full"></code></pre>
+                    <textarea id="table-code-raw" class="hidden"><table>
+  <caption>Table 1: CS-101 Midterm Exam Scores</caption>
+  <thead>
+    <tr>
+      <th scope="col">Student ID</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Score</th>
+      <th scope="col">Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ST-101</td>
+      <td>Amina Rahman</td>
+      <td>94</td>
+      <td>A+</td>
+    </tr>
+    <tr>
+      <td>ST-102</td>
+      <td>Tariq Hasan</td>
+      <td>86</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>ST-103</td>
+      <td>Nadia Islam</td>
+      <td>90</td>
+      <td>A+</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">Class Average</td>
+      <td>90.0</td>
+      <td>Pass</td>
+    </tr>
+  </tfoot>
+</table></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION 6: ADVANCED TABLE SPANNING (colspan & rowspan)
+             ===================================================================== -->
+        <section id="advanced-tables" class="scroll-mt-24">
+            <div class="mb-6">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700 font-mono text-xs font-bold">06</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Advanced Table Layout</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Merging Cells with <code class="text-rose-600 font-mono text-xl sm:text-2xl bg-rose-50 px-2 py-0.5 rounded-lg">colspan</code> & <code class="text-rose-600 font-mono text-xl sm:text-2xl bg-rose-50 px-2 py-0.5 rounded-lg">rowspan</code></h2>
+                <p class="text-slate-600 mt-1 text-sm sm:text-base">Real-world timetables and report cards require cells that span across multiple columns (<code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">colspan="n"</code>) or multiple rows (<code class="font-mono text-xs bg-slate-200/70 px-1.5 py-0.5 rounded">rowspan="n"</code>). Hover over highlighted cells below to inspect their attributes!</p>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- Left: Live Browser Preview (Weekly Class Schedule) -->
+                <div class="xl:col-span-7 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/50 border-b xl:border-b-0 xl:border-r border-slate-200">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                <span class="ml-1.5 text-slate-600">Student Weekly Timetable</span>
+                            </span>
+                            <div class="flex items-center gap-2 text-xs">
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-mono font-semibold">rowspan="2"</span>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-mono font-semibold">colspan="3"</span>
+                            </div>
+                        </div>
+
+                        <div class="inspectable overflow-x-auto rounded-xl border border-slate-300 bg-white shadow-sm">
+                            <table class="w-full border-collapse text-xs sm:text-sm text-center">
+                                <thead>
+                                    <tr class="bg-slate-900 text-white">
+                                        <th rowspan="2" class="border border-slate-700 px-3 py-2.5 font-bold bg-slate-800">
+                                            Day
+                                            <span class="block text-[10px] font-mono text-indigo-300 mt-0.5">rowspan="2"</span>
+                                        </th>
+                                        <th colspan="3" class="border border-slate-700 px-3 py-2 font-bold text-amber-300">
+                                            Morning &amp; Afternoon Sessions
+                                            <span class="ml-1.5 text-[10px] font-mono bg-amber-500/20 text-amber-200 px-1.5 py-0.5 rounded">colspan="3"</span>
+                                        </th>
+                                    </tr>
+                                    <tr class="bg-slate-800 text-slate-200 text-xs">
+                                        <th class="border border-slate-700 px-3 py-2">09:00 – 10:30</th>
+                                        <th class="border border-slate-700 px-3 py-2">10:30 – 11:30</th>
+                                        <th class="border border-slate-700 px-3 py-2">11:30 – 01:00</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-700">
+                                    <tr>
+                                        <th scope="row" class="border border-slate-300 px-3 py-3 font-bold bg-slate-100 text-slate-800">Sunday</th>
+                                        <td class="border border-slate-300 px-3 py-3">HTML5 &amp; Semantics</td>
+                                        <td rowspan="3" class="border border-indigo-300 px-3 py-3 bg-indigo-50 text-indigo-900 font-semibold align-middle">
+                                            <span class="block">☕ Study &amp; Lab Break</span>
+                                            <span class="inline-block mt-1 text-[11px] font-mono bg-indigo-200/80 text-indigo-900 px-1.5 py-0.5 rounded">rowspan="3"</span>
+                                        </td>
+                                        <td class="border border-slate-300 px-3 py-3">CSS Grid &amp; Flexbox</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="border border-slate-300 px-3 py-3 font-bold bg-slate-100 text-slate-800">Monday</th>
+                                        <td class="border border-slate-300 px-3 py-3">JavaScript DOM</td>
+                                        <!-- Middle cell skipped because Sunday's rowspan="3" covers Monday! -->
+                                        <td class="border border-slate-300 px-3 py-3">Database SQL</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="border border-slate-300 px-3 py-3 font-bold bg-slate-100 text-slate-800">Tuesday</th>
+                                        <td class="border border-slate-300 px-3 py-3">Data Structures</td>
+                                        <!-- Middle cell skipped because Sunday's rowspan="3" covers Tuesday! -->
+                                        <td class="border border-slate-300 px-3 py-3">Algorithms Lab</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="border border-slate-300 px-3 py-3 font-bold bg-slate-100 text-slate-800">Wednesday</th>
+                                        <td colspan="3" class="border border-amber-300 px-3 py-3 bg-amber-50 text-amber-900 font-semibold">
+                                            🚀 Full-Stack Capstone Project Workshop
+                                            <span class="ml-1.5 text-[11px] font-mono bg-amber-200/80 text-amber-900 px-1.5 py-0.5 rounded">colspan="3"</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-950">
+                            <strong class="font-mono text-amber-800">colspan="3"</strong> merges cells <strong>horizontally</strong> across 3 columns. Notice Wednesday only needs 1 <code class="font-mono bg-amber-100 px-1 rounded">&lt;td&gt;</code> instead of 3!
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-indigo-50/90 border border-indigo-200 text-indigo-950">
+                            <strong class="font-mono text-indigo-800">rowspan="3"</strong> merges cells <strong>vertically</strong> down 3 rows. Monday &amp; Tuesday omit that middle <code class="font-mono bg-indigo-100 px-1 rounded">&lt;td&gt;</code>!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: HTML Code Block -->
+                <div class="xl:col-span-5 bg-slate-900 text-slate-100 flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-3 bg-slate-950/60 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="file-code" class="w-4 h-4 text-rose-400"></i>
+                            <span class="text-xs font-mono text-slate-400">timetable-span.html</span>
+                        </div>
+                        <button onclick="copyCode('span-code-raw')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="p-5 text-xs font-mono leading-relaxed overflow-x-auto flex-1"><code id="span-code-display" class="w-full"></code></pre>
+                    <textarea id="span-code-raw" class="hidden"><table>
+  <thead>
+    <tr>
+      <th rowspan="2">Day</th>
+      <th colspan="3">Morning &amp; Afternoon Sessions</th>
+    </tr>
+    <tr>
+      <th>09:00 – 10:30</th>
+      <th>10:30 – 11:30</th>
+      <th>11:30 – 01:00</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Sunday</th>
+      <td>HTML5 &amp; Semantics</td>
+      <td rowspan="3">Study &amp; Lab Break</td>
+      <td>CSS Grid &amp; Flexbox</td>
+    </tr>
+    <tr>
+      <th>Monday</th>
+      <td>JavaScript DOM</td>
+      <!-- Middle cell covered by rowspan="3" -->
+      <td>Database SQL</td>
+    </tr>
+    <tr>
+      <th>Tuesday</th>
+      <td>Data Structures</td>
+      <!-- Middle cell covered by rowspan="3" -->
+      <td>Algorithms Lab</td>
+    </tr>
+    <tr>
+      <th>Wednesday</th>
+      <td colspan="3">Full-Stack Capstone Workshop</td>
+    </tr>
+  </tbody>
+</table></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             QUICK STUDENT CHEAT SHEET SUMMARY
+             ===================================================================== -->
+        <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-brand-950 rounded-3xl p-6 sm:p-10 text-white shadow-xl">
+            <div class="max-w-3xl mb-8">
+                <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-brand-300 text-xs font-semibold mb-3">Quick Revision</span>
+                <h2 class="text-2xl sm:text-3xl font-bold">Student Tag Cheat Sheet</h2>
+                <p class="text-slate-300 text-sm sm:text-base mt-1">Keep these essential HTML5 tags handy during lab exercises and exams.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-brand-300 font-mono font-bold text-base">&lt;ul&gt; &amp; &lt;li&gt;</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Unordered bulleted list where item sequence does not change meaning.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-violet-300 font-mono font-bold text-base">&lt;ol&gt; &amp; &lt;li&gt;</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Ordered numbered/lettered list. Supports <code class="text-white">type</code>, <code class="text-white">start</code>, and <code class="text-white">reversed</code>.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-sky-300 font-mono font-bold text-base">&lt;dl&gt;, &lt;dt&gt;, &lt;dd&gt;</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Description list pairing terms (<code class="text-white">&lt;dt&gt;</code>) with definitions (<code class="text-white">&lt;dd&gt;</code>).</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-emerald-300 font-mono font-bold text-base">&lt;thead&gt;, &lt;tbody&gt;, &lt;tfoot&gt;</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Semantic row groups separating table headers, body rows, and summary footers.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-amber-300 font-mono font-bold text-base">&lt;tr&gt;, &lt;th&gt;, &lt;td&gt;</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Table row (<code class="text-white">&lt;tr&gt;</code>), bold header cell (<code class="text-white">&lt;th&gt;</code>), and standard data cell (<code class="text-white">&lt;td&gt;</code>).</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                    <code class="text-rose-300 font-mono font-bold text-base">colspan &amp; rowspan</code>
+                    <p class="text-slate-300 text-xs mt-2 leading-relaxed">Attributes on <code class="text-white">&lt;th&gt;</code> or <code class="text-white">&lt;td&gt;</code> to merge cells horizontally or vertically.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>Interactive HTML5 Classroom Demonstration — Lists &amp; Tables</p>
+            <p class="font-mono">Tip: Click "Copy HTML" on any snippet to test it in your local code editor.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic & Lightweight HTML Syntax Highlighter -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        /**
+         * Escapes HTML characters and applies clean syntax highlighting
+         * for tags, attributes, attribute values, and comments.
+         */
+        function highlightHTML(rawCode) {
+            // Escape HTML entities first
+            let escaped = rawCode
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Highlight HTML comments
+            escaped = escaped.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="text-slate-500 italic">$1</span>');
+
+            // Highlight HTML tags and their attributes
+            escaped = escaped.replace(/(&lt;\/?)([a-zA-Z0-9-]+)([\s\S]*?)(\/?&gt;)/g, function(match, openBracket, tagName, attrs, closeBracket) {
+                // Highlight attributes inside tag
+                let highlightedAttrs = attrs.replace(/([a-zA-Z-]+)(=)("[^"]*"|'[^']*')/g, function(m, attrName, eq, attrVal) {
+                    return `<span class="text-amber-300">${attrName}</span><span class="text-slate-400">${eq}</span><span class="text-emerald-300">${attrVal}</span>`;
+                });
+                // Highlight boolean attributes like 'reversed'
+                highlightedAttrs = highlightedAttrs.replace(/\s(reversed)(?=\s|$)/g, ' <span class="text-amber-300">$1</span>');
+
+                return `<span class="text-slate-500">${openBracket}</span><span class="text-sky-400 font-semibold">${tagName}</span>${highlightedAttrs}<span class="text-slate-500">${closeBracket}</span>`;
+            });
+
+            return escaped;
+        }
+
+        /**
+         * Renders highlighted code into a target <code> element from a raw string
+         */
+        function renderCodeBlock(displayId, rawTextareaId, customRawString = null) {
+            const textarea = document.getElementById(rawTextareaId);
+            const display = document.getElementById(displayId);
+            const codeText = customRawString !== null ? customRawString : textarea.value;
+            if (customRawString !== null) {
+                textarea.value = customRawString;
+            }
+            display.innerHTML = highlightHTML(codeText);
+        }
+
+        /**
+         * Section 1: Unordered List Interactive Switcher
+         */
+        function setUlStyle(styleType) {
+            const listEl = document.getElementById('ul-live-list');
+            const badgeEl = document.getElementById('ul-badge');
+            const tabs = document.querySelectorAll('.ul-tab');
+
+            // Reset tab styles
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-brand-600', 'text-white');
+                tab.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+
+            // Activate clicked tab
+            const activeTab = document.getElementById(`ul-tab-${styleType}`);
+            activeTab.classList.remove('text-slate-600', 'hover:bg-slate-100');
+            activeTab.classList.add('bg-brand-600', 'text-white');
+
+            // Reset list classes & inline styles
+            listEl.className = 'pl-6 space-y-2 text-slate-700 text-sm sm:text-base';
+            listEl.style.listStyleType = '';
+
+            // Restore default items text
+            const defaultItems = [
+                'HTML5 (Structure & Semantics)',
+                'CSS3 (Styling & Responsive Layout)',
+                'JavaScript (Interactivity & Logic)',
+                'TypeScript (Type-Safe JavaScript)'
+            ];
+
+            let codeSnippet = '';
+
+            if (styleType === 'disc') {
+                listEl.classList.add('list-disc');
+                listEl.innerHTML = defaultItems.map(i => `<li>${i}</li>`).join('');
+                badgeEl.textContent = 'list-style-type: disc';
+                codeSnippet = `<ul style="list-style-type: disc;">
+  <li>HTML5 (Structure &amp; Semantics)</li>
+  <li>CSS3 (Styling &amp; Responsive Layout)</li>
+  <li>JavaScript (Interactivity &amp; Logic)</li>
+  <li>TypeScript (Type-Safe JavaScript)</li>
+</ul>`;
+            } else if (styleType === 'circle') {
+                listEl.style.listStyleType = 'circle';
+                listEl.innerHTML = defaultItems.map(i => `<li>${i}</li>`).join('');
+                badgeEl.textContent = 'list-style-type: circle';
+                codeSnippet = `<ul style="list-style-type: circle;">
+  <li>HTML5 (Structure &amp; Semantics)</li>
+  <li>CSS3 (Styling &amp; Responsive Layout)</li>
+  <li>JavaScript (Interactivity &amp; Logic)</li>
+  <li>TypeScript (Type-Safe JavaScript)</li>
+</ul>`;
+            } else if (styleType === 'square') {
+                listEl.style.listStyleType = 'square';
+                listEl.innerHTML = defaultItems.map(i => `<li>${i}</li>`).join('');
+                badgeEl.textContent = 'list-style-type: square';
+                codeSnippet = `<ul style="list-style-type: square;">
+  <li>HTML5 (Structure &amp; Semantics)</li>
+  <li>CSS3 (Styling &amp; Responsive Layout)</li>
+  <li>JavaScript (Interactivity &amp; Logic)</li>
+  <li>TypeScript (Type-Safe JavaScript)</li>
+</ul>`;
+            } else if (styleType === 'custom') {
+                listEl.classList.remove('pl-6');
+                listEl.classList.add('list-none', 'pl-1');
+                const emojis = ['🚀', '🎨', '⚡', '🛡️'];
+                listEl.innerHTML = defaultItems.map((item, idx) => `<li><span class="mr-2">${emojis[idx]}</span>${item}</li>`).join('');
+                badgeEl.textContent = 'list-style-type: none';
+                codeSnippet = `<ul style="list-style-type: none; padding-left: 0;">
+  <li>🚀 HTML5 (Structure &amp; Semantics)</li>
+  <li>🎨 CSS3 (Styling &amp; Responsive Layout)</li>
+  <li>⚡ JavaScript (Interactivity &amp; Logic)</li>
+  <li>🛡️ TypeScript (Type-Safe JavaScript)</li>
+</ul>`;
+            }
+
+            renderCodeBlock('ul-code-display', 'ul-code-raw', codeSnippet);
+        }
+
+        /**
+         * Section 2: Ordered List Interactive Controls
+         */
+        function updateOlDemo() {
+            const typeVal = document.getElementById('ol-type-select').value;
+            const startVal = parseInt(document.getElementById('ol-start-input').value, 10) || 1;
+            const isReversed = document.getElementById('ol-reversed-check').checked;
+            const olEl = document.getElementById('ol-live-list');
+            const badgeEl = document.getElementById('ol-badge');
+
+            // Remove Tailwind's list-decimal so native HTML `type` attribute renders cleanly
+            olEl.classList.remove('list-decimal');
+            olEl.style.listStyleType = '';
+            olEl.setAttribute('type', typeVal);
+            olEl.setAttribute('start', startVal);
+
+            if (isReversed) {
+                olEl.setAttribute('reversed', '');
+            } else {
+                olEl.removeAttribute('reversed');
+            }
+
+            // Build attribute string for code snippet & badge
+            let attrs = `type="${typeVal}"`;
+            if (startVal !== 1) attrs += ` start="${startVal}"`;
+            if (isReversed) attrs += ` reversed`;
+
+            badgeEl.textContent = `<ol ${attrs}>`;
+
+            const codeSnippet = `<ol ${attrs}>
+  <li>Browser requests HTML from server</li>
+  <li>DOM (Document Object Model) is parsed</li>
+  <li>CSS &amp; JavaScript assets are fetched</li>
+  <li>Page is painted onto the screen</li>
+</ol>`;
+
+            renderCodeBlock('ol-code-display', 'ol-code-raw', codeSnippet);
+        }
+
+        /**
+         * Section 5: Toggle between Modern Styled Table & Raw Browser Default Table
+         */
+        function setTableTheme(mode) {
+            const styledWrap = document.getElementById('table-styled-wrapper');
+            const rawWrap = document.getElementById('table-raw-wrapper');
+            const btnStyled = document.getElementById('tbl-btn-styled');
+            const btnRaw = document.getElementById('tbl-btn-raw');
+
+            if (mode === 'styled') {
+                styledWrap.classList.remove('hidden');
+                rawWrap.classList.add('hidden');
+                btnStyled.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition-all cursor-pointer';
+                btnRaw.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer';
+            } else {
+                styledWrap.classList.add('hidden');
+                rawWrap.classList.remove('hidden');
+                btnRaw.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition-all cursor-pointer';
+                btnStyled.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all cursor-pointer';
+            }
+        }
+
+        /**
+         * Classroom Feature: Toggle dashed inspection outlines around preview containers
+         */
+        let inspectActive = false;
+        function toggleTagHighlights() {
+            inspectActive = !inspectActive;
+            const boxes = document.querySelectorAll('.inspectable');
+            const btn = document.getElementById('highlight-btn');
+
+            boxes.forEach(box => {
+                if (inspectActive) {
+                    box.classList.add('ring-2', 'ring-dashed', 'ring-brand-500', 'ring-offset-2');
+                } else {
+                    box.classList.remove('ring-2', 'ring-dashed', 'ring-brand-500', 'ring-offset-2');
+                }
+            });
+
+            if (inspectActive) {
+                btn.classList.remove('bg-brand-50', 'text-brand-700');
+                btn.classList.add('bg-brand-600', 'text-white');
+            } else {
+                btn.classList.add('bg-brand-50', 'text-brand-700');
+                btn.classList.remove('bg-brand-600', 'text-white');
+            }
+        }
+
+        /**
+         * Copy HTML snippet to clipboard using execCommand fallback (iframe-safe)
+         */
+        let toastTimeout;
+        function copyCode(textareaId) {
+            const rawTextarea = document.getElementById(textareaId);
+            const tempInput = document.createElement('textarea');
+            tempInput.value = rawTextarea.value;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('copy-toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2600);
+        }
+
+        // Initialize all code blocks on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            setUlStyle('disc');
+            updateOlDemo();
+            renderCodeBlock('dl-code-display', 'dl-code-raw');
+            renderCodeBlock('nested-code-display', 'nested-code-raw');
+            renderCodeBlock('table-code-display', 'table-code-raw');
+            renderCodeBlock('span-code-display', 'span-code-raw');
+        });
+    </script>
 </body>
 </html>
